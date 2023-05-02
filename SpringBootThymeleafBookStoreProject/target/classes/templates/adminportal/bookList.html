@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="adminportal/adminApplicationHeader/adminHeader :: common-header"/>
+<body>
+<div th:replace="adminportal/adminApplicationHeader/adminHeader :: navbar"/>
+<div class="container">
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover table-striped" id="bookListTable">
+            <thead>
+            <tr>
+                <th><input th:id="selectAllBooks" type="checkbox"/></th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Category</th>
+                <th>List Price</th>
+                <th>Our Price</th>
+                <th>Active?</th>
+                <th>Operation</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr data-th-each="book: ${bookList}">
+                <td><input hidden="hidden" name="bookId" th:value="${book.bookId}"/>
+                    <input class="checkboxBook" th:id="'selected'+${book.bookId}" type="checkbox"></td>
+                <td><a th:href="@{/web/admin/book/bookInfo(bookId=${book.bookId})}"><span
+                        th:text="${book.bookTitle}"></span></a></td>
+                <td th:text="${book.bookAuthor}"></td>
+                <td th:text="${book.bookCategory}"></td>
+                <td th:text="${book.listPrice}"></td>
+                <td th:text="${book.shopPrice}"></td>
+                <td th:text="${book.active}"></td>
+                <td><input hidden="hidden" name="bookId" th:value="${book.bookId}"/>
+                    <button class="btn btn-danger btn-xs delete-book" th:id="'oneBook-'+${book.bookId}" type="submit"
+                            value="delete"><span class="fa fa-times"></span>Delete
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <button class="btn btn-danger" th:id="deleteSelected">Delete Selected</button>
+</div>
+<div th:replace="adminportal/adminApplicationHeader/adminHeader :: body-bottom-scripts"/>
+
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1000/xhtml">
+<head th:replace="bookstoreportal/applicationHeader/header :: common-header"/>
+
+<body>
+
+<div th:replace="bookstoreportal/applicationHeader/header :: navbar"/>
+
+<div class="container">
+    <div class="row" style="margin-bottomL-100 px">
+        <div class="col-xs-8">
+            <h2 class="section-headline">
+                <span>User Account</span>
+            </h2>
+        </div>
+        <div class="col-xs-4">
+            <img alt="pic" class="img-responsive" src="/image/logo.png"/>
+        </div>
+    </div>
+    <hr
+            style="position: absolute; width: 100%; height: 6px; background-color: #333; z-index: -1; margin-top: -80px;"/>
+    <img class="img-responsive" src="/image/wood.png" style="margin-top: -75px;"/>
+    <div class="row" style="margin-top:10px">
+        <div class="col-xs-9 col-xs-offset-3">
+            <h5>Bad request. The request path is invalid. Click <a th:href="@{/web/bookStore/home}">here</a> to return
+                to the home page.
+            </h5>
+        </div>
+    </div>
+</div>
+
+<div th:replace="bookstoreportal/applicationHeader/header :: footer"/>
+<div th:replace="bookstoreportal/applicationHeader/header :: body-bottom-scripts"/>
+</body>
+</html>

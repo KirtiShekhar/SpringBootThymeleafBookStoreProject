@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="adminportal/adminApplicationHeader/adminHeader :: common-header"/>
+<body>
+<div th:replace="adminportal/adminApplicationHeader/adminHeader :: navbar"/>
+<div class="container">
+    <div>
+        <ol class="breadcrumb">
+            <li>
+                <a th:href="@{/web/admin/book/bookList}">
+                    <i aria-hidden="true" class="fa fa-long-arrow-left"></i>Go Back</a>
+            </li>
+            <li><a th:href="@{/web/admin/book/updateBook?bookId=}+${book.bookId}">Edit</a></li>
+        </ol>
+    </div>
+    <div class="row">
+        <div class="col-xs-3">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <img class="img-responsive center-block" th:src="@{/image/book/}+${book.bookId}+'.png'"/>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-9">
+            <h3 th:text="${book.bookTitle}"></h3>
+            <div class="row">
+                <div class="col-xs-6">
+                    <p><strong>Author: </strong><span th:text="${book.bookAuthor}"></span></p>
+                    <p><strong>Publisher: </strong><span th:text="${book.bookPublisher}"></span></p>
+                    <p><strong>Publication Date: </strong><span th:text="${book.bookPublicationDate}"></span></p>
+                    <p><strong>Language: </strong><span th:text="${book.bookLanguage}"></span></p>
+                    <p><strong>Category: </strong><span th:text="${book.bookCategory}"></span></p>
+                    <p><strong>Pages: </strong><span th:text="${book.bookNumberOfPages}"></span></p>
+                </div>
+                <div class="col-xs-6">
+                    <p><strong>Format: </strong><span th:text="${book.bookFormat}"></span></p>
+                    <p><strong>ISBN: </strong><span th:text="${book.bookIsbnNumber}"></span></p>
+                    <p><strong>Shipping Weight: </strong><span th:text="${book.shippingWeight}"></span></p>
+                    <p><strong>List Price: </strong><span th:text="${book.listPrice}"></span></p>
+                    <p><strong>Our Price: </strong><span th:text="${book.shopPrice}"></span></p>
+                    <p><strong>Number in Stock: </strong><span th:text="${book.bookInStockNumber}"></span></p>
+                </div>
+            </div>
+            <p><strong>Description: </strong><span th:utext="${book.bookDescription}"></span></p>
+        </div>
+    </div>
+</div>
+<div th:replace="adminportal/adminApplicationHeader/adminHeader :: body-bottom-scripts"/>
+</body>
+</html>

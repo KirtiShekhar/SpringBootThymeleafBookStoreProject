@@ -1,0 +1,130 @@
+<html lang="en" xmlns:th="http://www.w3.org/1000/xhtml">
+
+<head th:replace="bookstoreportal/applicationHeader/header :: common-header"/>
+
+<body>
+
+<div th:replace="bookstoreportal/applicationHeader/header :: navbar"/>
+
+<div class="container">
+    <div class="row" style="margin-bottom: -100px;">
+        <div class="col-xs-8">
+            <h2 class="section-headline">
+                <h2 class="section-headline">
+                    <span th:text="${user}?${#strings.toUpperCase(user.username)}:'AllBooks'"></span>
+                </h2>
+            </h2>
+        </div>
+        <div class="col-xs-4">
+            <img class="img-responsive" src="/image/logo.png"/>
+        </div>
+    </div>
+    <hr
+            style="position: absolute; width:85%; height: 6px; background-color: #333; z-index: -1; margin-top: -80px;"/>
+    <img class="img-responsive" src="/image/wood.png" style="margin-top: -75px;"/>
+
+    <div class="row" style="margin-top: 10px;">
+        <div class="col-xs-12">
+            <div class="row">
+                <div class="col-xs-6 text-left">
+                    <a class="btn btn-warning" th:href="@{/web/bookStore/bookshelf}">Continue
+                        Shopping</a>
+                </div>
+                <div class="col-xs-6 text-right">?
+                    <a class="btn btn-primary"
+                       th:href="@{/web/bookStore/checkout/checkoutCartItems(shoppingCartId=${shoppingCart.shoppingCartId})}">Check
+                        Out</a>
+                </div>
+                <br/>
+                <div class="alert alert-warning" th:if="${notEnoughStock}">
+                    Oops, some of the products don't have enough stock. Please update
+                    product quantity.
+                </div>
+                <div class="alert alert-warning" th:if="${emptyCart}">Oops,
+                    your cart is empty. See if you can find what you like in the
+                    bookshelf and add them to cart.
+                </div>
+
+                <br/> <br/>
+                <div class="row">
+                    <div class="col-xs-8 ">
+                        <h4 style="margin-left:70px;">Products</h4>
+                    </div>
+                    <div class="col-xs-2">
+                        <h4>Price</h4>
+                    </div>
+                    <div class="col-xs-2">
+                        <h4>Qty</h4>
+                    </div>
+                </div>
+
+                <!--**************** display products in cart ****************-->
+
+                <div class="row" th:each="cartItem : ${cartItemList}">
+                    <form method="post" th:action="@{/web/bookStore/shoppingCart/updateCartItem}">
+                        <hr/>
+                        <div class="col-xs-2">
+                            <a th:href="@{/web/bookStore/bookDetail(bookId=${cartItem.book.bookId})}"> <img
+                                    class="img-responsive shelf-book center-block"
+                                    style="width:70px;"
+                                    th:src="@{/image/book/}+${cartItem.book.bookId}+'.png'"/>
+                            </a>
+                        </div>
+                        <div class="col-xs-6">
+                            <div style="margin-left:50px;">
+                                <a th:href="@{/web/bookStore/bookDetail(bookId=${cartItem.book.bookId})}">
+                                    <h4 th:text="${cartItem.book.bookTitle}"></h4>
+                                </a>
+                                <p style="color: green;" th:if="${cartItem.book.bookInStockNumber&gt;10}">In Stock</p>
+                                <p style="color: green;"
+                                   th:if="${cartItem.book.bookInStockNumber&lt;10 and cartItem.book.bookInStockNumber&gt;0}">
+                                    Only <span th:text="${cartItem.book.bookInStockNumber}"></span> In
+                                    Stock
+                                </p>
+                                <p style="color: darkred;" th:if="${cartItem.book.bookInStockNumber==0}">Product
+                                    Unavailable</p>
+                                <a th:href="@{/web/bookStore/shoppingCart/removeCartItem?cartItemId=}+${cartItem.cartItemId}">delete</a>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-2">
+                            <h5 style="color: #db3208; font-size: large;">
+                                $<span
+                                    th:style="${cartItem.book.bookInStockNumber}==0? 'text-decoration: line-through' : ''"
+                                    th:text="${cartItem.book.shopPrice}"></span>
+                            </h5>
+                        </div>
+
+                        <div class="col-xs-2">
+                            <input hidden="hidden" name="id" th:value="${cartItem.cartItemId}"/> <input
+                                class="form-control cartItemQty" th:disabled="${cartItem.book.bookInStockNumber==0}"
+                                th:id="${cartItem.cartItemId}"
+                                th:name="itemQuantity" th:value="${cartItem.itemQuantity}"/>
+                            <button class="btn btn-warning btn-xs" style="display: none;"
+                                    th:id="'update-item-'+${cartItem.cartItemId}"
+                                    type="submit">Update
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="row">
+                    <hr/>
+                    <h4 class="col-xs-12 text-right">
+                        <strong style="font-size: large;">Total Price (<span
+                                th:text="${#lists.size(cartItemList)}"></span>
+                            items):
+                        </strong> <span style="color: #db3208; font-size: large;">$<span
+                            th:text="${shoppingCart.cartGrandTotal}"></span></span>
+                    </h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="bookstoreportal/applicationHeader/header :: footer"/>
+<div th:replace="bookstoreportal/applicationHeader/header :: body-bottom-scripts"/>
+</body>
+
+</html>

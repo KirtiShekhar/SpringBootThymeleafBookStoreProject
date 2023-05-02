@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1000/xhtml">
+
+<head th:replace="bookstoreportal/applicationHeader/header :: common-header"/>
+
+<body>
+
+<div th:replace="bookstoreportal/applicationHeader/header :: navbar"/>
+
+<div class="container">
+    <div class="row" style="margin-bottom: -100px">
+        <div class="col-xs-8">
+            <h2 class="section-headline">
+                <h2 class="section-headline">
+                    <span th:text="${user}?${#strings.toUpperCase(user.username)}:'AllBooks'"></span>
+                </h2>
+            </h2>
+        </div>
+        <div class="col-xs-4">
+            <img alt="logo" class="img-responsive" src="/image/logo.png"/>
+        </div>
+    </div>
+    <hr style="position:absolute;width:100%;height: 6px;background-color:#333;z-index:-1;margin-top:-80px;"/>
+    <img alt="logo" class="img-responsive" src="/image/wood.png" style="margin-top:-75px"/>
+    <div class="row" style="margin-top:60px;">
+        <div class="col-xs-3">
+            <h3><label for="bookCategory">Category</label></h3>
+            <div class="list-group" id="bookCategory">
+                <a class="list-group-item" th:classappend="${activeAll}?'active'"
+                   th:href="@{/web/bookStore/bookshelf(bookCategory='All')}">All</a>
+                <a class="list-group-item" th:classappend="${activeScience}?'active'"
+                   th:href="@{/web/bookStore/search/byCategory(bookCategory='Science')}">Science</a>
+                <a class="list-group-item" th:classappend="${activeCommerce}?'active'"
+                   th:href="@{/web/bookStore/search/byCategory(bookCategory='Commerce')}">Commerce</a>
+                <a class="list-group-item" th:classappend="${activeEngineering}?'active'"
+                   th:href="@{/web/bookStore/search/byCategory(bookCategory='Engineering')}">Engineering</a>
+                <a class="list-group-item" th:classappend="${activeProgramming}?'active'"
+                   th:href="@{/web/bookStore/search/byCategory(bookCategory='Programming')}">Programming</a>
+                <a class="list-group-item" th:classappend="${activeManagement}?'active'"
+                   th:href="@{/web/bookStore/search/byCategory(bookCategory='Management')}">Management</a>
+            </div>
+        </div>
+        <div class="col-xs-9">
+            <div th:if="${emptyList}">
+                <h5 style="font-style: italic;">Oops, no result is found. Try
+                    something else or try again later.</h5>
+            </div>
+            <table border="0" id="bookList">
+                <thead>
+                <tr>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="book-item" data-th-each="book:${bookList}">
+                    <td>
+                        <div th:if="${book != null}">
+                            <div class="row" style="margin-bottom: 50px;">
+                                <div class="col-xs-3">
+                                    <a th:href="@{/web/bookStore/bookDetails(bookId=${book.bookId})}"><img
+                                            class="img-responsive shelf-book"
+                                            th:src="@{/image/book/}+${book.bookId}+'.png'"/></a>
+                                </div>
+                                <div class="col-xs-9">
+                                    <a th:href="@{/web/bookStore/bookDetails(bookId=${book.bookId})}">
+                                        <h4 th:text="${book.bookTitle}"></h4>
+                                    </a> <span th:text="${book.bookPublicationDate}"></span>
+                                    <p th:text="${book.bookAuthor}"></p>
+                                    <a th:href="@{/web/bookstore/bookDetails(bookId=${book.bookId})}"><span
+                                            th:text="${#strings.capitalize(book.bookFormat)}"></span></a>
+                                    <span th:text="${book.bookNumberOfPages}"><span> pages</span></span><br/>
+
+                                    <a th:href="@{/web/bookstore/bookDetails(bookId=${book.bookId})}"><span
+                                            style="font-size: x-large; color: #db3208;">$<span
+                                            th:text="${#numbers.formatDecimal(book.shopPrice, 0 , 'COMMA', 2, 'POINT')}"></span></span></a>
+
+                                    <span style="text-decoration: line-through;">$<span
+                                            th:text="${#numbers.formatDecimal(book.listPrice, 0 , 'COMMA', 2, 'POINT')}"></span></span>
+
+                                    <p th:utext="${#strings.abbreviate(book.bookDescription, 1000)}"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div th:replace="bookstoreportal/applicationHeader/header :: footer"/>
+<div th:replace="bookstoreportal/applicationHeader/header :: body-bottom-scripts"/>
+</body>
+
+</html>
